@@ -5,3 +5,20 @@
 @Author ShiqiDing
 @File __init__.py.py
 """
+from .expection import (
+    CustomExpection,
+    FailExpection,
+    NotFoundExpection,
+    UnauthorizedExpection,
+    ForbiddenExpection,
+    ValidationExpection
+)
+
+__all__ = [
+    'CustomExpection',
+    'FailExpection',
+    'NotFoundExpection',
+    'UnauthorizedExpection',
+    'ForbiddenExpection',
+    'ValidationExpection'
+]

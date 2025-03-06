@@ -10,21 +10,24 @@ import os
 from flask import request
 from openai import OpenAI
 
+from internal.exception import FailExpection
 from internal.schema.app_schema import CompletionReq
+from pkg.response import success_json, validate_error_json
 
 
 class AppHandler:
     '''应用控制器'''
 
     def ping(self):
-        return {"ping": "pong"}
+        raise FailExpection("数据未找到")
 
     def completion(self):
         '''聊天接口'''
         # 1.提取从接口中获得的输入，POST
         req = CompletionReq()
         if not req.validate():
-            return req.errors
+            return validate_error_json(req.errors)
+
         query = request.json.get("query")
         # 2.构建openai客户端并发起请求
         client = OpenAI(
@@ -39,4 +42,5 @@ class AppHandler:
                                                         {"role": "user", "content": query}
                                                     ])
         content = completion.choices[0].message.content
-        return content
+
+        return success_json({"content": content})
